@@ -52,3 +52,4 @@ export function deleteUser(req, res) {
         res.json(data)
     })
 }
+
