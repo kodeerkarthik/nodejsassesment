@@ -9,17 +9,21 @@ const routes = (app) => {
     .get(getUser)    
     .put(updateUser)    
     .delete(deleteUser)
-
   app.post('/assesment', [
     check('Firstname').isEmpty(),
     check('Lastname').isEmpty(),
-    check('Email').isEmpty(),
+    check('Email').isEmpty().custom(email => {
+      if (alreadyHaveEmail(email)) {
+        throw new Error('Email already registered')
+      }
+    }),
     check('Password')
       .isLength({ min:8 })
       .matches('[0-9]').withMessage("must and should use number")
       .matches('[a-z]').withMessage("must and should use small letter")
-      .matches('[A-Z]').withMessage("must and should use capital letter"),
-    check('ConformPassword').isLength({ min: 5, max:8 })
+      .matches('[A-Z]').withMessage("must and should use capital letter")
+      .equals('ConformPassword').withMessage("password mismatch"),
+    check('ConformPassword').isEmpty()
   ],addNewUser, (req, res) => {
     const errors = validationResult(req,res);
     if (errors.isEmpty().isLength().matches()) {
