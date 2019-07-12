@@ -30,6 +30,7 @@ const UserSchema = new Schema({
 
     ConformPassword:{
         type: String,
+        
         required:"Password is not valid"
     },
 
@@ -43,7 +44,6 @@ const UserSchema = new Schema({
     }
     
 })
-
 
  
 export default UserSchema;
